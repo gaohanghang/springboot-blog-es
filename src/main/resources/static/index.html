@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-grid.min.css">
+	<link rel="stylesheet" href="css/bootstrap-reboot.min.css">
+</head>
+<body>
+<div class="container">
+	<div class="row" style="margin-top: 20px;">
+		<div class="col-12">
+			<h2>
+				Springboot + ES - 演示博客
+			</h2>
+		</div>
+	</div>
+
+	<div class="row" style="margin-top: 20px;" id="app">
+		<div class="col-9">
+			<form class="form-inline">
+				<div class="form-group mb-2">
+					<input type="text" class="form-control" id="title-mysql" placeholder="检索你的检索" v-model="keyword">
+				</div>
+				<button type="button" class="btn btn-primary mb-2" style="margin-left: 5px;" v-on:click="searchWithMysql">
+					mysql
+				</button>
+				<button type="button" class="btn btn-primary mb-2" style="margin-left: 5px;" v-on:click="searchWithEs">ES
+				</button>
+				<span style="margin-left: 10px; color: green;">耗时：{{duration}}</span>
+			</form>
+			<div class="row">
+				<div class="col-sm-6" v-for="(blog,index) in blogList" style="margin-top: 20px;">
+					<div class="card">
+						<div class="card-img-top">
+							<img :src="'img/'+(index+1)+'.jpg'" style="height: auto;width: 100%"/>
+						</div>
+						<div class="card-body">
+							<h5 class="card-title">{{blog.title}}</h5>
+							<p>{{blog.author}} 发布于 {{blog.createTime}}</p>
+							<a :href="'blog.html?id='+blog.id" style="font-weight: bold">...more</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-3">
+			<ul class="nav flex-column">
+				<li class="nav-item">
+					<a class="nav-link active" href="#">Springboot</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">ES</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">杂谈</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">笔记</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script>
+
+    var app;
+    app = new Vue({
+        el: '#app',
+        data: {
+            blogList: [],
+            keyword: '',
+            duration: ''
+        },
+        methods: {
+            getBlogs: function () {
+                console.log("getBlogs");
+                var that = this;
+                axios.get("http://localhost:8081/blogs", {}).then(function (response) {
+                    that.blogList = response.data;
+                })
+            },
+            searchWithMysql: function () {
+                console.log("searchWithMysql");
+                var that = this;
+                var param = {"type": "mysql", "keyword": that.keyword};
+                axios.post("http://localhost:8081/search", param).then(function (response) {
+                    that.blogList = response.data.list;
+                    that.duration = response.data.duration;
+                })
+            },
+            searchWithEs: function () {
+                console.log("searchWithEs");
+                var that = this;
+                var param = {"type": "es", "keyword": that.keyword};
+                axios.post("http://localhost:8081/search", param).then(function (response) {
+                    that.blogList = response.data.list;
+                    that.duration = response.data.duration;
+                })
+            }
+        },
+        created: function () {
+            this.getBlogs();
+        }
+    })
+
+
+</script>
+</body>
+</html>
