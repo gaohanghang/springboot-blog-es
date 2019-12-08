@@ -24,16 +24,3 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-.idea/
-.mvn/wrapper/MavenWrapperDownloader.java
-.mvn/wrapper/maven-wrapper.properties
-README.md
-mvnw
-mvnw.cmd
-pom.xml
-springboot-blog-es.iml
-src/
-target/classes/application.yml
-target/classes/static/
-target/generated-sources/
-target/generated-test-sources/
