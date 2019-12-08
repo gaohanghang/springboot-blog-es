@@ -5,3 +5,11 @@
 > 视频地址：https://www.imooc.com/learn/1161
 > 
 > 参考代码：https://github.com/sixkery/blog_index
+
+### 运行效果图
+
+
+![](https://raw.githubusercontent.com/gaohanghang/images/master/img/20191208161314.png)
+
+![](https://raw.githubusercontent.com/gaohanghang/images/master/img/20191208161351.png)
+
