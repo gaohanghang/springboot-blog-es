@@ -21,7 +21,10 @@ spring:
     database-platform: org.hibernate.dialect.MySQLDialect
 
   # es 配置
-
+  data:
+    elasticsearch:
+      cluster-nodes: localhost:9300
+      cluster-name: elasticsearch  # es 集群的名称
 
   # mvc 静态资源映射
   mvc:
